@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
@@ -16,8 +17,8 @@ public class RepositoryService {
         return productRepository.getAll();
     }
 
-    public Product getById(int id) {
-        return productRepository.getById(id);
+    public Product getById(Integer id) {
+        return productRepository.getById(id).orElseThrow(() -> new NoSuchElementException());
     }
 
     public void addNew(Product product) {

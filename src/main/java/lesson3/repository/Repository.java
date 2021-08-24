@@ -4,24 +4,26 @@ import lesson3.model.Product;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 @org.springframework.stereotype.Repository
 public class Repository {
-    private List<Product> list = new ArrayList<>();
+    private Map<Integer, Product> db = new ConcurrentHashMap<>();
 
-    public Product getById(int id) {
-        for (Product product : list) {
-            if (product.getId() == id)
-                return product;
-        }
-        return null;
+    public Optional<Product> getById(Integer id) {
+        return db.values().stream().filter(product -> (product.getId() == id)).findFirst();
     }
 
     public List<Product> getAll() {
-        return list;
+        return db.values().stream().collect(Collectors.toUnmodifiableList());
     }
 
     public void addNew(Product product) {
-        list.add(product);
+        if (product.getId() == null)
+            product.setId(db.size() + 1);
+        db.put(product.getId(), product);
     }
 }

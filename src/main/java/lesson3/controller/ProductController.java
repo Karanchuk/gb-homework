@@ -2,6 +2,7 @@ package lesson3.controller;
 
 import lesson3.service.RepositoryService;
 import lesson3.model.Product;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -15,11 +16,6 @@ public class ProductController {
     public ProductController(RepositoryService repositoryService) {
         this.repositoryService = repositoryService;
     }
-
-    /*@Autowired
-    public void setRepositoryService(RepositoryService repositoryService) {
-        this.repositoryService = repositoryService;
-    }*/
 
     @RequestMapping(value = "/product/{id}", method = RequestMethod.GET)
     public String findById(Model model, @PathVariable(value = "id") int id) {
@@ -43,7 +39,13 @@ public class ProductController {
     @RequestMapping(value = "/form", method = RequestMethod.POST)
     public String create(Product product) {
         repositoryService.addNew(product);
-        return "new_product";
+        return "redirect:/product";
     }
+
+//    @PostMapping
+//    public String save(@ModelAttribute("person") Product product) {
+//         repositoryService.addNew(product);
+//        return "redirect:/product";
+//    }
 
 }

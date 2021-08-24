@@ -1,10 +1,12 @@
 package lesson3.model;
 
-import lombok.Getter;
+import lombok.Data;
 
-@Getter
+import java.util.concurrent.atomic.AtomicInteger;
+
+@Data
 public class Product {
-    private int id;
+    private Integer id;
     private String title;
     private int cost;
 }

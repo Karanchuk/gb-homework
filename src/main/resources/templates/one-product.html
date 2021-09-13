@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Home</title>
+</head>
+
+<body>
+<table>
+    <tr>
+        <td> <a th:href="${productPage} ">Products</a></td>
+        <td> <a th:href="${formPage} ">Add new product</a></td>
+        <td> <a th:href="${customerPage} ">Customers</a></td>
+        <td> <a th:href="${addCustomerPage} ">Add new customer</a></td>
+    </tr>
+</table>
+<h1 th:text="'Product by id ' + ${product.id}"> </h1>
+<br>
+<p th:text="'Title: ' + ${product.title} + '; cost: ' + ${product.cost}" />
+</body>
+</html>

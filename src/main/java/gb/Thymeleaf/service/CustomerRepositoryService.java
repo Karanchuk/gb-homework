@@ -44,4 +44,8 @@ public class CustomerRepositoryService {
     public void removeById(int id) {
         customerRepository.deleteById(id);
     }
+
+    public void update(int id, String name) {
+        customerRepository.findById(id).ifPresent(p -> p.setName(name));
+    }
 }

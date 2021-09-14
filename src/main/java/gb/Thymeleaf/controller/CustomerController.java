@@ -29,6 +29,11 @@ public class CustomerController {
         customerRepositoryService.addNew(customerDto);
     }
 
+    @PutMapping("/{id}/{name}")
+    public void update(@PathVariable(value = "id") int id, @PathVariable(value = "name") String name) {
+        customerRepositoryService.update(id, name);
+    }
+
     @DeleteMapping("/{id}")
     public void removeById(@PathVariable(value = "id") int id) {
         customerRepositoryService.removeById(id);

@@ -3,6 +3,20 @@ app.controller('indexController', function ($scope, $http) {
 
     const contextPath = 'http://localhost:8080/api/v1';
 
+    $scope.sortCustomer = function () {
+        $http.get(contextPath + '/customer/sort')
+            .then(function (resp) {
+                $scope.Customers = resp.data
+            });
+    };
+
+    $scope.filterCustomer = function (){
+        $http.get(contextPath + '/customer?name=' + $scope.CustomerFilter)
+            .then(function (resp) {
+                $scope.Customers = resp.data
+            })
+    }
+
     $scope.saveCustomer = function () {
         $http.post(contextPath + '/customer', $scope.NewCustomer)
             .then(function (resp) {

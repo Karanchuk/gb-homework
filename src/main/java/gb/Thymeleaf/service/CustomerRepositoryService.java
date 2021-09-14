@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class CustomerRepositoryService {
     private final CustomerRepository customerRepository;
+    private final ProductRepositoryService productRepositoryService;
 
     public List<CustomerDto> getAll() {
         return customerRepository.findAll().stream().map(CustomerDto::valueOf).collect(Collectors.toList());
@@ -33,10 +34,24 @@ public class CustomerRepositoryService {
         customerRepository.saveAndFlush(customerDto.mapToCustomer());
     }
 
-    public void newSale(CustomerDto customerDto, ProductDto productDto) {
-        Customer customer = customerDto.mapToCustomer();
+    public void newSale(Integer customer_id, Integer product_id) {
+        Optional<CustomerDto> customerDto = getByID(customer_id);
+        Customer customer;
+        if (customerDto.isPresent())
+            customer = customerDto.get().mapToCustomer();
+        else
+            return;
+
+        Optional<ProductDto> productDto = productRepositoryService.getWithFilter(Optional.ofNullable(product_id), null, null).stream().findFirst();
+
+        Product product;
+        if (productDto.isPresent())
+            product = productDto.get().mapToProduct();
+        else
+            return;
+
         List<Product> products = customer.getProducts();
-        products.add(productDto.mapToProduct());
+        products.add(product);
         customer.setProducts(products);
         customerRepository.saveAndFlush(customer);
     }

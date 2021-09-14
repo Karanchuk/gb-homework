@@ -10,8 +10,6 @@ import java.util.Optional;
 
 public interface ProductRepository extends JpaRepository<Product, Integer> {
 
-    @Query("SELECT p from Product p " +
-            "where (:title is null OR :title = p.title) " +
-            "AND (:cost is null OR :cost = p.cost)")
-    List<Product> findWithFilter(@Param("title") Optional<String> title, @Param("cost") Optional<Integer> cost);
+    @Query("SELECT p from Product p where (:id is null OR :id = p.id) AND (:title is null OR :title = p.title) AND (:cost is null OR :cost = p.cost)")
+    List<Product> findWithFilter(@Param("id") Optional<Integer> id, @Param("title") Optional<String> title, @Param("cost") Optional<Integer> cost);
 }

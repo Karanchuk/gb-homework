@@ -29,8 +29,8 @@ public class CustomerRepositoryService {
         return customerRepository.findByName(name).stream().map(CustomerDto::valueOf).collect(Collectors.toList());
     }
 
-    public void addNew(Customer customer) {
-        customerRepository.saveAndFlush(customer);
+    public void addNew(CustomerDto customerDto) {
+        customerRepository.saveAndFlush(customerDto.mapToCustomer());
     }
 
     public void newSale(CustomerDto customerDto, ProductDto productDto) {
@@ -39,5 +39,9 @@ public class CustomerRepositoryService {
         products.add(productDto.mapToProduct());
         customer.setProducts(products);
         customerRepository.saveAndFlush(customer);
+    }
+
+    public void removeById(int id) {
+        customerRepository.deleteById(id);
     }
 }

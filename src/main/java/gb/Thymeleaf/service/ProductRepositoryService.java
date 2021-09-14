@@ -20,12 +20,8 @@ public class ProductRepositoryService {
         return productRepository.findAll().stream().map(ProductDto::valueOf).collect(Collectors.toList());
     }
 
-    public Optional<ProductDto> getById(Integer id) {
-        return productRepository.findById(id).stream().map(ProductDto::valueOf).findFirst();
-    }
-
-    public void addNew(Product product) {
-        productRepository.saveAndFlush(product);
+    public void addNew(ProductDto productDto) {
+        productRepository.saveAndFlush(productDto.mapToProduct());
     }
 
     public void removeById(int id) {
@@ -36,7 +32,8 @@ public class ProductRepositoryService {
         productRepository.findById(id).ifPresent(p -> p.setCost(cost));
     }
 
-    public List<Product> getWithFilter(Optional<String> title, Optional<Integer> cost) {
-        return productRepository.findWithFilter(title, cost);
+    public List<ProductDto> getWithFilter(Optional<Integer> id, Optional<String> title, Optional<Integer> cost) {
+        return productRepository.findWithFilter(id, title, cost).stream().map(ProductDto::valueOf).collect(Collectors.toList());
     }
+
 }

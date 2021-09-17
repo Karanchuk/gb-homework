@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ApiModel(description = "Модель товара", value = "ProductDto")
+@ApiModel(description = "Product model", value = "ProductDto")
 public class ProductDto {
     @ApiModelProperty(
             value    = "id",

@@ -21,7 +21,7 @@ public class CartController {
     private final CustomerRepositoryService customerRepositoryService;
     private final ProductRepositoryService productRepositoryService;
 
-    @ApiOperation("Добавление покупателю купленных товаров")
+    @ApiOperation("Adding purchased goods to the buyer")
     @GetMapping("/buyer={buyer}/product={product}")
     public void buy(@ApiParam(name =  "buyer", type = "Integer", value = "buyer id", example = "1", required = true)
                         @PathVariable(name = "buyer") int customer_id,

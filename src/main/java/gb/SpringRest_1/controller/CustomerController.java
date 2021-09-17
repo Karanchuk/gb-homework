@@ -21,7 +21,7 @@ public class CustomerController {
     private final CustomerRepositoryService customerRepositoryService;
 
     @GetMapping
-    @ApiOperation("Получение всех покупателей. Доступна фильтрация по полям id, name.")
+    @ApiOperation("Receiving all customers. Filtering by fields id, name is available.")
     public Object showAll(@ApiParam(name =  "id", type = "Integer", value = "customer id", example = "1")
                             @RequestParam(value = "id") Optional<Integer> id,
                           @ApiParam(name =  "name", type = "String", value = "customer name", example = "Anna")
@@ -35,7 +35,7 @@ public class CustomerController {
     }
 
     @GetMapping("/sort")
-    @ApiOperation("Получение всех пользователей с сортировкой имени в алфавитном порядке")
+    @ApiOperation("Receiving all customers sorted alphabetically by name.")
     public List<CustomerDto> showWithSort() {
         return customerRepositoryService.getAll().stream()
                 .sorted(Comparator.comparing(CustomerDto::getName))
@@ -43,7 +43,7 @@ public class CustomerController {
     }
 
     @PostMapping
-    @ApiOperation("Создание нового покупателя")
+    @ApiOperation("Create a new customer.")
     public void save(@ApiParam (name =  "customerDto",
             type = "object",
             value = "customer model",
@@ -53,7 +53,7 @@ public class CustomerController {
     }
 
     @PutMapping("/{id}/{name}")
-    @ApiOperation("Изменение имени покупателя по id")
+    @ApiOperation("Change of customer name by id.")
     public void update(@ApiParam(name =  "id", type = "Integer", value = "customer id", example = "1", required = true)
                         @PathVariable(value = "id") int id,
                        @ApiParam(name =  "name", type = "String", value = "new customer name", example = "Derrick", required = true)
@@ -61,7 +61,7 @@ public class CustomerController {
         customerRepositoryService.update(id, name);
     }
 
-    @ApiOperation("Удаление покупателя по id")
+    @ApiOperation("Remove customer by id.")
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ApiResponses(
             @ApiResponse(

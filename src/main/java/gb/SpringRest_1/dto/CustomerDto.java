@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ApiModel(description = "Модель покупателя", value = "CustomerDto")
+@ApiModel(description = "Customer model", value = "CustomerDto")
 public class CustomerDto {
     @ApiModelProperty(
             value    = "id",

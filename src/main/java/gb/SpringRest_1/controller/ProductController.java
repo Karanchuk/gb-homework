@@ -18,7 +18,7 @@ public class ProductController {
     private final ProductRepositoryService productRepositoryService;
 
     @GetMapping
-    @ApiOperation("Получение всех продуктов. Доступна фильтрация по полям id, title, cost.")
+    @ApiOperation("Receiving of all products. Filtering by fields id, title, cost is available.")
     public Object showAll(@ApiParam(name =  "id", type = "Integer", value = "product id", example = "1")
                             @RequestParam(value = "id") Optional<Integer> id,
                           @ApiParam(name =  "title", type = "String", value = "product title", example = "Orange")
@@ -33,7 +33,7 @@ public class ProductController {
     }
 
     @PostMapping
-    @ApiOperation("Создание нового продукта")
+    @ApiOperation("New product creation.")
     public void create(@ApiParam (name =  "productDto",
             type = "object",
             value = "product model",
@@ -43,7 +43,7 @@ public class ProductController {
     }
 
     @PutMapping("/{id}/{cost}")
-    @ApiOperation("Изменение цены продукта по id")
+    @ApiOperation("Product price change by id.")
     public void updatePrice(@ApiParam(name =  "id", type = "Integer", value = "product id", example = "1", required = true)
                                 @PathVariable(value = "id") int id,
                             @ApiParam(name =  "cost", type = "Integer", value = "product cost", example = "100", required = true)
@@ -52,7 +52,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
-    @ApiOperation("Удаление продукта по id")
+    @ApiOperation("Removing a product by id.")
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ApiResponses(
             @ApiResponse(

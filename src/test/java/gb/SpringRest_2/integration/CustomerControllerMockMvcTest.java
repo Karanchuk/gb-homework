@@ -1,21 +1,22 @@
 package gb.SpringRest_2.integration;
 
+import gb.SpringRest_2.dto.CustomerDto;
 import gb.SpringRest_2.model.Customer;
-import gb.SpringRest_2.model.Product;
 import gb.SpringRest_2.repository.CustomerRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+
+import static additional.ForTest.asJsonString;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * @author antonkuznetsov
@@ -102,4 +103,29 @@ public class CustomerControllerMockMvcTest {
                         true));
     }
 
+    @Test
+    @DisplayName("Успешное создание объекта")
+    public void createSuccess() throws Exception {
+        CustomerDto customerDto = new CustomerDto();
+        customerDto.setName("test");
+
+        mvc.perform(MockMvcRequestBuilders.post(BASE_URL)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(asJsonString(customerDto))
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+    }
+
+    @Test
+    @DisplayName("Неправильный запрос при создании объекта")
+    public void createFail() throws Exception {
+
+        mvc.perform(MockMvcRequestBuilders.post(BASE_URL)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(asJsonString("test"))
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+
+    }
 }

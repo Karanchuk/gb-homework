@@ -1,8 +1,6 @@
 package gb.SpringRest_2.integration;
 
-
 import gb.SpringRest_2.model.Customer;
-import gb.SpringRest_2.model.Product;
 import gb.SpringRest_2.repository.CustomerRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
@@ -39,15 +37,16 @@ public class CustomerControllerIntegrationTest {
         Customer customer = new Customer();
         customer.setName("Alice");
         Customer savedCustomer = customerRepository.save(customer);
-        ResponseEntity<Customer> actual = restTemplate.getForEntity("http://localhost:" + port + BASE_URL + "/" + savedCustomer.getId(), Customer.class);
+        ResponseEntity<Customer> actual = restTemplate.getForEntity("http://localhost:" + port + BASE_URL + "?id=" + savedCustomer.getId(), Customer.class);
         Assertions.assertThat(actual.getStatusCode()).isEqualTo(HttpStatus.OK);
         Assertions.assertThat(actual.getBody()).isNotNull();
     }
 
     @Test
+    @DisplayName("Ошибка поиска по идентфикатору")
     public void findByIdFail() {
-        ResponseEntity<Customer> actual = restTemplate.getForEntity("http://localhost:" + port + BASE_URL + "/1", Customer.class);
+        ResponseEntity<Customer> actual = restTemplate.getForEntity("http://localhost:" + port + BASE_URL + "?id=1", Customer.class);
         Assertions.assertThat(actual.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
-        Assertions.assertThat(actual.getBody()).isNotNull();
+        Assertions.assertThat(actual.getBody()).isNull();
     }
 }

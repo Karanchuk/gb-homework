@@ -1,0 +1,371 @@
+swagger: '2.0'
+  info:
+    description: Api Documentation
+    version: '1.0'
+    title: Api Documentation
+    termsOfService: urn:tos
+    contact: {}
+    license:
+      name: Apache 2.0
+      url: http://www.apache.org/licenses/LICENSE-2.0
+  host: localhost:8080
+  basePath: /
+  tags:
+    - name: cart-controller
+      description: Cart Controller
+    - name: customer-controller
+      description: Customer Controller
+    - name: product-controller
+      description: Product Controller
+  paths:
+    /api/v1/buy/buyer={buyer}/product={product}:
+      get:
+        tags:
+          - cart-controller
+        summary: Adding purchased goods to the buyer
+        operationId: buyUsingGET
+        produces:
+          - '*/*'
+        parameters:
+          - name: buyer
+            in: path
+            description: buyer id
+            required: true
+            type: integer
+            format: int32
+            x-example: 1
+          - name: product
+            in: path
+            description: product id
+            required: true
+            type: integer
+            format: int32
+            x-example: 1
+        responses:
+          '200':
+            description: OK
+          '401':
+            description: Unauthorized
+          '403':
+            description: Forbidden
+          '404':
+            description: Not Found
+        deprecated: false
+    /api/v1/customer:
+      get:
+        tags:
+          - customer-controller
+        summary: Receiving all customers. Filtering by fields id, name is available.
+        operationId: showAllUsingGET
+        produces:
+          - '*/*'
+        parameters:
+          - name: id
+            in: query
+            description: customer id
+            required: false
+            type: string
+            allowEmptyValue: false
+            x-example: '1'
+          - name: name
+            in: query
+            description: customer name
+            required: false
+            type: string
+            allowEmptyValue: false
+            x-example: Anna
+        responses:
+          '200':
+            description: OK
+            schema:
+              type: object
+          '401':
+            description: Unauthorized
+          '403':
+            description: Forbidden
+          '404':
+            description: Not Found
+        deprecated: false
+      post:
+        tags:
+          - customer-controller
+        summary: Create a new customer.
+        operationId: saveUsingPOST
+        consumes:
+          - application/json
+        produces:
+          - '*/*'
+        parameters:
+          - in: body
+            name: customerDto
+            description: customer model
+            required: true
+            schema:
+              $ref: '#/definitions/CustomerDto'
+        responses:
+          '200':
+            description: OK
+          '201':
+            description: Created
+          '401':
+            description: Unauthorized
+          '403':
+            description: Forbidden
+          '404':
+            description: Not Found
+        deprecated: false
+    /api/v1/customer/sort:
+      get:
+        tags:
+          - customer-controller
+        summary: Receiving all customers sorted alphabetically by name.
+        operationId: showWithSortUsingGET
+        produces:
+          - '*/*'
+        responses:
+          '200':
+            description: OK
+            schema:
+              type: array
+              items:
+                $ref: '#/definitions/CustomerDto'
+          '401':
+            description: Unauthorized
+          '403':
+            description: Forbidden
+          '404':
+            description: Not Found
+        deprecated: false
+    /api/v1/customer/{id}:
+      delete:
+        tags:
+          - customer-controller
+        summary: Remove customer by id.
+        operationId: removeByIdUsingDELETE
+        produces:
+          - '*/*'
+        parameters:
+          - name: id
+            in: path
+            description: customer id
+            required: true
+            type: integer
+            format: int32
+            x-example: 1
+        responses:
+          '204':
+            description: No Content
+          '401':
+            description: Unauthorized
+          '403':
+            description: Forbidden
+          '404':
+            description: Customer by id deleted
+        deprecated: false
+    /api/v1/customer/{id}/{name}:
+      put:
+        tags:
+          - customer-controller
+        summary: Change of customer name by id.
+        operationId: updateUsingPUT
+        consumes:
+          - application/json
+        produces:
+          - '*/*'
+        parameters:
+          - name: id
+            in: path
+            description: customer id
+            required: true
+            type: integer
+            format: int32
+            x-example: 1
+          - name: name
+            in: path
+            description: new customer name
+            required: true
+            type: string
+            x-example: Derrick
+        responses:
+          '200':
+            description: OK
+          '201':
+            description: Created
+          '401':
+            description: Unauthorized
+          '403':
+            description: Forbidden
+          '404':
+            description: Not Found
+        deprecated: false
+    /api/v1/product:
+      get:
+        tags:
+          - product-controller
+        summary: Receiving of all products. Filtering by fields id, title, cost is available.
+        operationId: showAllUsingGET_1
+        produces:
+          - '*/*'
+        parameters:
+          - name: cost
+            in: query
+            description: product cost
+            required: false
+            type: string
+            allowEmptyValue: false
+            x-example: '100'
+          - name: id
+            in: query
+            description: product id
+            required: false
+            type: string
+            allowEmptyValue: false
+            x-example: '1'
+          - name: title
+            in: query
+            description: product title
+            required: false
+            type: string
+            allowEmptyValue: false
+            x-example: Orange
+        responses:
+          '200':
+            description: OK
+            schema:
+              type: object
+          '401':
+            description: Unauthorized
+          '403':
+            description: Forbidden
+          '404':
+            description: Not Found
+        deprecated: false
+      post:
+        tags:
+          - product-controller
+        summary: New product creation.
+        operationId: createUsingPOST
+        consumes:
+          - application/json
+        produces:
+          - '*/*'
+        parameters:
+          - in: body
+            name: productDto
+            description: product model
+            required: true
+            schema:
+              $ref: '#/definitions/ProductDto'
+        responses:
+          '200':
+            description: OK
+          '201':
+            description: Created
+          '401':
+            description: Unauthorized
+          '403':
+            description: Forbidden
+          '404':
+            description: Not Found
+        deprecated: false
+    /api/v1/product/{id}:
+      delete:
+        tags:
+          - product-controller
+        summary: Removing a product by id.
+        operationId: removeByIdUsingDELETE_1
+        produces:
+          - '*/*'
+        parameters:
+          - name: id
+            in: path
+            description: product id
+            required: true
+            type: integer
+            format: int32
+            x-example: 1
+        responses:
+          '204':
+            description: No Content
+          '401':
+            description: Unauthorized
+          '403':
+            description: Forbidden
+          '404':
+            description: Product by id deleted
+        deprecated: false
+    /api/v1/product/{id}/{cost}:
+      put:
+        tags:
+          - product-controller
+        summary: Product price change by id.
+        operationId: updatePriceUsingPUT
+        consumes:
+          - application/json
+        produces:
+          - '*/*'
+        parameters:
+          - name: cost
+            in: path
+            description: product cost
+            required: true
+            type: integer
+            format: int32
+            x-example: 100
+          - name: id
+            in: path
+            description: product id
+            required: true
+            type: integer
+            format: int32
+            x-example: 1
+        responses:
+          '200':
+            description: OK
+          '201':
+            description: Created
+          '401':
+            description: Unauthorized
+          '403':
+            description: Forbidden
+          '404':
+            description: Not Found
+        deprecated: false
+  definitions:
+    CustomerDto:
+      type: object
+      required:
+        - name
+      properties:
+        id:
+          type: integer
+          format: int32
+          example: 1
+          description: id
+        name:
+          type: string
+          example: Paul
+          description: name
+      title: CustomerDto
+      description: Customer model
+    ProductDto:
+      type: object
+      required:
+        - title
+      properties:
+        cost:
+          type: integer
+          format: int32
+          example: 200
+          description: cost
+        id:
+          type: integer
+          format: int32
+          example: 1
+          description: id
+        title:
+          type: string
+          example: Potato
+          description: title
+      title: ProductDto
+      description: Product model

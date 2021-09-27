@@ -1,0 +1,12 @@
+services:
+  url: localhost
+  spring:
+    datasource:
+      driver-class-name: org.postgresql.Driver
+      url: jdbc:postgresql://localhost:5432/postgres?currentSchema=hiber
+      username: postgres
+      password: postgres
+    jpa:
+      show-sql: true
+      properties:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
